@@ -1,10 +1,11 @@
 import Navbar from "@/components/Navbar";
+import UserContextProvider from "@/components/userContext/context";
 import "@/styles/globals.css";
 import { Inter } from '@next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-import { GeistSans } from "geist/font/sans";
+
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.className}`}>
       <body>
+        <UserContextProvider>
         <Navbar/>
         {children}
+        </UserContextProvider>
         </body>
     </html>
   );
