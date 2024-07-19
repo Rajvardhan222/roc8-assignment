@@ -1,0 +1,62 @@
+import { NextRequest, NextResponse } from "next/server";
+import jwt from 'jsonwebtoken'
+import { db } from "@/server/db";
+export const GET =async (req : NextRequest) => {
+    try {
+        const token = req.cookies.get('accessToken')?.value
+        const params = req.nextUrl.searchParams
+
+        const skip = params.get('skip')
+
+        const userId = jwt.verify(token,process.env.JWT_SECRET!)
+         console.log(userId);
+         
+        const user = await db.user.findUnique({where:{id:userId.userId},select : {
+         id : true,
+         name :true,
+         email :true,
+        }})
+
+        if(!user){
+         return NextResponse.json({
+             status :404,
+             success : false,
+             message : "Invalid Token"
+         })
+        }
+
+
+        const categories = await db.categories.findMany({
+            take: 6,
+            skip : skip | 0,
+            include: {
+              likedBy: {
+                where: {
+                  userId: userId.userId,
+                },
+              },
+            },
+          });
+      
+          // Map through the categories and add the `liked` field
+          const categoriesWithLikedField = categories.map(category => ({
+            ...category,
+            liked: category.likedBy.length > 0,
+          }));
+
+          categoriesWithLikedField.page = skip
+      
+          // Return the response
+          return NextResponse.json(categoriesWithLikedField);
+
+
+       
+
+    } catch (error) {
+        return NextResponse.json({
+            error : error.message,
+            status : 500,
+            success : false
+        })
+    }
+}
