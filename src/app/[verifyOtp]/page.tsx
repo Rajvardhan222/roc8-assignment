@@ -53,7 +53,7 @@ function VerifyOtp() {
         </div>
         <div>
             <p className='font-normal mx-auto w-[80%] text-center' >Enter the 8 digit code you have received on {'  '}
-            {hideEmail(email)}</p>
+            {email ? hideEmail(email) : 'your email'}</p>
         </div>
 
         <div className='mx-auto'>
