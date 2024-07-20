@@ -27,7 +27,7 @@ function SIgnup() {
             
 
             if (data.data.success) {
-                router.push('/verifyOtp')
+                router.push(`/verifyOtp?email=${email}`);
             } else {
                 setErrorMessage(data.message)
             }
@@ -94,7 +94,13 @@ function SIgnup() {
           Create account
           </button>
         </form>
-        <div></div>
+        <div className="mx-auto">
+            <p className="text-[#333333] ">Have an Account? <span className="cursor-pointer font-semibold" 
+            onClick={()=>{
+                router.push('/login')
+            }}
+            >Login</span></p>
+        </div>
       </div>
     </div>
   );

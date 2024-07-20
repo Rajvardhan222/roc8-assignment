@@ -1,7 +1,7 @@
 import { db } from "@/server/db";
 import { NextRequest ,NextResponse} from "next/server";
 import jwt from 'jsonwebtoken'
-export const POST = async (req : NextRequest) =>{
+export const GET = async (req : NextRequest) =>{
     try {
         let token = req.cookies.get('accessToken')?.value
 
