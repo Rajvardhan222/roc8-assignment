@@ -29,7 +29,7 @@ function SIgnup() {
             if (data.data.success) {
                 router.push(`/verifyOtp?email=${email}`);
             } else {
-                setErrorMessage(data.message)
+                setErrorMessage(data.data.errmsg)
             }
         } catch (error) {
             setErrorMessage(error.message)
@@ -90,7 +90,7 @@ function SIgnup() {
               <div className="text-red-500 text-xs my-2">{errorMessage}</div>
             )}
           
-          <button type="submit" disabled={loading} className="bg-black text-white font-medium uppercase rounded-md px-20 py-2 ">
+          <button type="submit" disabled={loading} className={`bg-black text-white font-medium uppercase rounded-md px-20 py-2 ${loading? " bg-slate-800 " : ""}`}>
           Create account
           </button>
         </form>

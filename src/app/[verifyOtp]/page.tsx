@@ -1,7 +1,8 @@
 'use client';
 import OtpInput from '@/components/OtpInput';
-import { useSearchParams } from 'next/navigation'
-import React from 'react'
+import { apiClient } from '@/server/api/axiosClient';
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useState } from 'react'
 
 
 let hideEmail = (emailAddress: string) => {
@@ -12,14 +13,33 @@ let hideEmail = (emailAddress: string) => {
 }
 
 function VerifyOtp() {
+  let [otp,setOtp] = useState('')
 
   //get params from url
 
   let queryParams = useSearchParams()
+  let [error,setError] = useState('')
   let email = queryParams.get('email')
   console.log(email);
-  const submitOtp = (otp) =>{
+  let router = useRouter()
+  const submitOtp = async() =>{
       try {
+        setError('')
+        console.log(otp);
+        
+        let response = await  apiClient.post('/user/verifyOtp',{
+            otp : Number(otp),
+            email : email
+          })
+          console.log(response);
+          
+
+          if (response.data.success) {
+            router.push('/login')
+          }else{
+            setError(response.data.message)
+          }
+
         
       } catch (error) {
         
@@ -37,7 +57,16 @@ function VerifyOtp() {
         </div>
 
         <div className='mx-auto'>
-            <OtpInput length={8} submitForm={submitOtp}/>
+            <OtpInput length={8} setOtp={setOtp}/>
+        </div>
+        {error && <p className='text-red-500 '>
+          {error}
+        </p>
+        }
+        <div className='mx-auto mt-16'>
+        <button   className="bg-black text-white font-medium uppercase mx-auto rounded-md px-36 py-2 " onClick={submitOtp}>
+            verify
+            </button>
         </div>
         
        

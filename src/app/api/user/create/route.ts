@@ -45,14 +45,19 @@ export const POST = async(req:NextRequest) =>{
     })
 
     } catch (error) {
-        return NextResponse.json(
-            { error: "An error occurred while creating your account." ,
+        let response = { error: "An error occurred while creating your account." ,
                 
-             status: 500 ,
-             success: false,
-             errmsg : error.message
-            
-            }
+            status: 500 ,
+            success: false,
+            errmsg : error.message
+           
+           }
+
+           if(error.code === 'P2002'){
+            response.errmsg = "A User with same Email already exists"
+           }
+        return NextResponse.json(
+            response
         );
     }
 }
