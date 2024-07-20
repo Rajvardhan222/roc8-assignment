@@ -4,8 +4,12 @@ import { db } from "@/server/db";
 export const GET =async (req : NextRequest) => {
     try {
         const token = req.cookies.get('accessToken')?.value
+        if (!token) { 
+          throw new Error('Access token is not provided')
+          
+        }
         const params = req.nextUrl.searchParams
-        const secret = process.env.JWT_SECRET;
+        const secret = process.env.JWT_SECRET!;
        
     if (!secret) {
       throw new Error('JWT_SECRET is not defined in the environment variables');
