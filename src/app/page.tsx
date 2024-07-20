@@ -72,13 +72,13 @@ let verifyAccessToken = async () => {
                   </div>
             </div>
             <div className="flex gap-x-6">
-              <div className={!(skip/6 > 0) ? "text-gray-400" : ""} onClick={()=>{
+              <div className={!(skip/6 > 0) ? "text-gray-400" : "cursor-pointer"} onClick={()=>{
                 if(skip/6 > 0){
                   setSkip(prev=>prev - 6)
                 }
               }} >&lt;</div>
               <div >{(skip/6)+1}</div>
-              <div className={hasNextPage ? "" : "text-gray-400"}  onClick={()=>{
+              <div className={hasNextPage ? "cursor-pointer" : "text-gray-400"}  onClick={()=>{
                 if(hasNextPage){
                   setSkip(prev=>prev + 6)
                 }
