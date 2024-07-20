@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of axios
 export const apiClient = axios.create({
-  baseURL: 'http://localhost:3001/api', 
+  baseURL: NODE_ENV == 'production' ? NEXT_PUBLIC_URL :'http://localhost:3001/api', 
   timeout: 10000, withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
