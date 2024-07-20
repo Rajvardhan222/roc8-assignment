@@ -5,7 +5,11 @@ export const GET =async (req : NextRequest) => {
     try {
         const token = req.cookies.get('accessToken')?.value
         const params = req.nextUrl.searchParams
-        const secret = process.env.JWT_SECRET! || "thisSecret";
+        const secret = process.env.JWT_SECRET;
+       
+    if (!secret) {
+      throw new Error('JWT_SECRET is not defined in the environment variables');
+    }
         const skip =Number( params.get('skip'))
 
         const userId = jwt.verify(token,secret)

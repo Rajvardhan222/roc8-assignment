@@ -6,8 +6,12 @@ export const POST =async (req: NextRequest) => {
     const reqBody = await req.json();
     let { categoryId } = reqBody;
     const token = req.cookies.get("accessToken")?.value;
-
-    const userId = jwt.verify(token, process.env.JWT_SECRET!);
+    const secret = process.env.JWT_SECRET;
+       
+    if (!secret) {
+      throw new Error('JWT_SECRET is not defined in the environment variables');
+    }
+    const userId = jwt.verify(token,secret);
     console.log(userId);
 
     const user = await db.user.findUnique({

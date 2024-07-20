@@ -5,6 +5,11 @@ import jwt from "jsonwebtoken"
 import { boolean } from "zod";
 export const POST = async (req : NextRequest) => {
     try {
+        const secret = process.env.JWT_SECRET;
+       
+        if (!secret) {
+          throw new Error('JWT_SECRET is not defined in the environment variables');
+        }
         const input = await req.json()
         const {email, password} = input;
         
@@ -61,7 +66,7 @@ export const POST = async (req : NextRequest) => {
            
        }
 
-       let token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+       let token = jwt.sign({ userId: user.id }, secret, { expiresIn: '1h' });
 
       let updateToken =await db.user.update({
         where:{

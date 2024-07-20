@@ -11,6 +11,16 @@ interface sendMail {
 
 const sendEmail = async ({ email, name, userId }: sendMail) => {
   try {
+    const mjApiKey = process.env.MJ_APIKEY_PUBLIC
+    if (!mjApiKey) {
+      throw new Error("MJ_APIKEY_PUBLIC is required")
+    }
+    const mjApiKey = process.env.MJ_APIKEY_PRIVATE
+
+    if(!mjApiKey){
+      throw new Error("MJ_APIKEY_PRIVATE is required")
+    }
+
     const mailjet = new Mailjet({
         apiKey: process.env.MJ_APIKEY_PUBLIC,
         apiSecret: process.env.MJ_APIKEY_PRIVATE,

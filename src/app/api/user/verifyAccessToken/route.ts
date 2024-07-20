@@ -3,9 +3,14 @@ import { NextRequest ,NextResponse} from "next/server";
 import jwt from 'jsonwebtoken'
 export const GET = async (req : NextRequest) =>{
     try {
+        const secret = process.env.JWT_SECRET;
+       
+        if (!secret) {
+          throw new Error('JWT_SECRET is not defined in the environment variables');
+        }
         let token = req.cookies.get('accessToken')?.value
 
-           let userId = jwt.verify(token,process.env.JWT_SECRET!)
+           let userId = jwt.verify(token,secret)
             console.log(userId);
             
            let user = await db.user.findUnique({where:{id:userId.userId},select : {
