@@ -32,7 +32,7 @@ const sendEmail = async ({ email, name, userId }: sendMail) => {
             {
               From: {
                 Email: "rajvardhanranawat80@gmail.com",
-                Name: "Cashier",
+                Name: "Rajvardhan",
               },
               To: [
                 {
